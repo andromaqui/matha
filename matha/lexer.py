@@ -1,17 +1,23 @@
 import re
+from parser import Parser
 
 def tokenize(text):
     token_patterns = [
-        ('NUMBER', r'\d+'),  # 123
-        ('IDENTIFIER', r'[a-zA-Z_]\w*'),
-        ('PLUS', r'\+'),
-        ('MINUS', r'-'),
-        ('TIMES', r'\*'),
-        ('DIVIDE', r'/'),
+        ('FORWARD', r'forward'),
+        ('DATA', r'data'),
+        ('INVERSE', r'inverse'),
+        ('USING', r'using'),
         ('EQUALS', r'='),
+        ('PLUS', r'\+'),
+        ('ARROW', r'->'),
+        ('LBRACKET', r'\['),
+        ('RBRACKET', r'\]'),
+        ('COMMA', r','),
+        ('NUMBER', r'\d+\.?\d*'),
+        ('IDENTIFIER', r'[a-zA-Z_]\w*'),
         ('LPAREN', r'\('),
         ('RPAREN', r'\)'),
-        ('WHITESPACE', r'\s+'),
+        ('WHITESPACE', r'\s+'),  # Skip whitespace
     ]
 
     tokens = []
@@ -38,6 +44,12 @@ def tokenize(text):
     return tokens
 
 
-code = "x = 42 + 7"
-tokens = tokenize(code)
-print(tokens)
+sample_input = """forward y = x + b 
+data observed = [2.1, 3.2, 4.0, 5.1] 
+data x_values = [1, 2, 3, 4] 
+inverse estimate(observed, x_values) -> b 
+   using y"""
+tokens = tokenize(sample_input)
+parser = Parser(tokens)
+print(parser.parse())
+
