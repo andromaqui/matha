@@ -1,5 +1,6 @@
 import re
 from parser import Parser
+from solver import Solver
 
 def tokenize(text):
     token_patterns = [
@@ -51,5 +52,7 @@ inverse estimate(observed, x_values) -> b
    using y"""
 tokens = tokenize(sample_input)
 parser = Parser(tokens)
-print(parser.parse())
+parsed_tokens = parser.parse()
+solver = Solver(parsed_tokens)
+solver.solve()
 
