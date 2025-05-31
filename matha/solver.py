@@ -1,4 +1,3 @@
-from scipy.optimize import minimize
 import numpy as np
 
 class Solver:
@@ -17,5 +16,5 @@ class Solver:
 
         b_estimates = observed - x_values
         b = np.mean(b_estimates)
-        print("Solved b:", b)
+        return b
 

@@ -1,58 +1,55 @@
 import re
-from parser import Parser
-from solver import Solver
 
-def tokenize(text):
-    token_patterns = [
-        ('FORWARD', r'forward'),
-        ('DATA', r'data'),
-        ('INVERSE', r'inverse'),
-        ('USING', r'using'),
-        ('EQUALS', r'='),
-        ('PLUS', r'\+'),
-        ('ARROW', r'->'),
-        ('LBRACKET', r'\['),
-        ('RBRACKET', r'\]'),
-        ('COMMA', r','),
-        ('NUMBER', r'\d+\.?\d*'),
-        ('IDENTIFIER', r'[a-zA-Z_]\w*'),
-        ('LPAREN', r'\('),
-        ('RPAREN', r'\)'),
-        ('WHITESPACE', r'\s+'),  # Skip whitespace
-    ]
+class Lexer():
 
-    tokens = []
-    position = 0
+    def __init__(self, code):
+        self.code = code
+        self.token_patterns = [
+            ('FORWARD', r'forward'),
+            ('DATA', r'data'),
+            ('INVERSE', r'inverse'),
+            ('USING', r'using'),
+            ('EQUALS', r'='),
+            ('PLUS', r'\+'),
+            ('ARROW', r'->'),
+            ('LBRACKET', r'\['),
+            ('RBRACKET', r'\]'),
+            ('COMMA', r','),
+            ('NUMBER', r'\d+\.?\d*'),
+            ('IDENTIFIER', r'[a-zA-Z_]\w*'),
+            ('LPAREN', r'\('),
+            ('RPAREN', r'\)'),
+            ('WHITESPACE', r'\s+'),
+        ]
 
-    while position < len(text):
-        matched = False
+    def tokenize(self):
+        tokens = []
+        position = 0
 
-        for token_type, pattern in token_patterns:
-            regex = re.compile(pattern)
-            match = regex.match(text, position)
+        while position < len(self.code):
+            matched = False
 
-            if match:
-                value = match.group(0)
-                if token_type != 'WHITESPACE':
-                    tokens.append((token_type, value))
-                position = match.end()
-                matched = True
-                break
+            for token_type, pattern in self.token_patterns:
+                regex = re.compile(pattern)
+                match = regex.match(self.code, position)
 
-        if not matched:
-            raise SyntaxError(f"Unknown character: {text[position]}")
+                if match:
+                    value = match.group(0)
+                    if token_type != 'WHITESPACE':
+                        tokens.append((token_type, value))
+                    position = match.end()
+                    matched = True
+                    break
 
-    return tokens
+            if not matched:
+                raise SyntaxError(f"Unknown character: {self.code[position]}")
+
+        return tokens
 
 
-sample_input = """forward y = x + b 
-data observed = [2.1, 3.2, 4.0, 5.1] 
-data x_values = [1, 2, 3, 4] 
-inverse estimate(observed, x_values) -> b 
-   using y"""
-tokens = tokenize(sample_input)
-parser = Parser(tokens)
-parsed_tokens = parser.parse()
-solver = Solver(parsed_tokens)
-solver.solve()
+    sample_input = """forward y = x + b 
+    data observed = [2.1, 3.2, 4.0, 5.1] 
+    data x_values = [1, 2, 3, 4] 
+    inverse estimate(observed, x_values) -> b 
+       using y"""
 
