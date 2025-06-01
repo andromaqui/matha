@@ -6,6 +6,7 @@ def run_matha(code):
     lexer = Lexer(code)
     tokenized_code = lexer.tokenize()
 
+    print("Parsing code ...")
     parser = Parser(tokenized_code)
     parsed_code = parser.parse()
 

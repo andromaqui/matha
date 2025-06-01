@@ -101,9 +101,12 @@ Matha aims to bridge the gap between mathematical formulation and computational 
 
 This is a research project exploring domain-specific languages for scientific computing. Contributions welcome!
 
-## License
+## Copyright Notice
 
-MIT License - see LICENSE file for details.
+Copyright 2025 Andrea Rozaki. All rights reserved.
+
+This is preliminary research code developed for academic purposes. 
+Please do not distribute without permission.
 
 ## Citation
 

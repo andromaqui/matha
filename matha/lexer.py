@@ -11,6 +11,7 @@ class Lexer():
             ('USING', r'using'),
             ('EQUALS', r'='),
             ('PLUS', r'\+'),
+            ('MULTIPLY', r'\*'),
             ('ARROW', r'->'),
             ('LBRACKET', r'\['),
             ('RBRACKET', r'\]'),
@@ -20,6 +21,8 @@ class Lexer():
             ('LPAREN', r'\('),
             ('RPAREN', r'\)'),
             ('WHITESPACE', r'\s+'),
+            ('EXP', r'exp'),
+            ('POWER', r'\^'),
         ]
 
     def tokenize(self):
